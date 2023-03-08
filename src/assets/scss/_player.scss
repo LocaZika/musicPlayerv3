@@ -1,0 +1,123 @@
+@import '_params';
+.player{
+  grid-column: span 2;
+  @include flex(center, center);
+  flex-direction: column;
+  gap: 2rem;
+  height: auto;
+  align-self: center;
+  padding: 2rem 0;
+  &__thumb{
+    background: #fff radial-gradient(transparent 0 5%, #8e44ad 5% 20%, #000 20%) no-repeat center center/cover;
+    width: 30rem;
+    height: 30rem;
+    margin: 2rem 0;
+    box-shadow: 0 0 2rem 0 rgba(0, 0, 0, 0.5),
+      0 0 0.5rem 0 rgba(0, 0, 0);
+    transform: rotate(0);
+    border-radius: 50%;
+    animation: thumb 5s linear infinite;
+    animation-play-state: paused;
+    &.playing{
+      animation-play-state: running;
+    }
+    @keyframes thumb {
+      from{transform: rotate(0);}
+      to{transform: rotate(360deg);}
+    }
+  }
+  &__info {
+    text-align: center;
+    text-transform: capitalize;
+    h2{
+      font-size: 2.6rem;
+      line-height: 2rem;
+      margin-bottom: 2rem;
+    }
+    h4{
+      font-size: 1.6rem;
+      line-height: 2rem;
+      color: #8f8f8f;
+    }
+  }
+  &-controls{
+    width: 100%;
+    padding: 0 2rem;
+    &__timeline{
+      height: 2rem;
+      margin-bottom: 2rem;
+      input{
+        width: 100%;
+        -webkit-appearance: none;
+        cursor: pointer;
+        background-color: #b9b9b9;
+        overflow: hidden;
+        border-radius: 10rem;
+        &::-webkit-slider-runnable-track{
+          // background-image: linear-gradient(45deg, #ffbb00, #19d800, #0099ff);
+          box-shadow: inset 0 0 0 40px #b3b3b3;
+          border-radius: 10rem;
+          height:1rem;
+        }
+        &::-webkit-slider-thumb{
+          -webkit-appearance: none;
+          height: 1.5rem;
+          width: 1.5rem;
+          margin-top: -.25rem;
+          border-radius: 50%;
+          background-color: #00c7eb;
+          box-shadow: -33rem 0 0 32rem #ffd900;
+          transition: box-shadow 0.2s linear;
+        }
+        &:active::-webkit-slider-thumb{
+          box-shadow: -330px 0 0 320px #11e4cf;
+          transition: box-shadow 0.2s linear;
+        }
+      }
+    }
+    &__buttons{
+      @include flex(space-around, center);
+      >button, >div{
+        background-color: rgba($color:#fff, $alpha: 0.5);
+        border: none;
+        box-shadow: 0 0 1rem 0 rgba($color: #000000, $alpha: 0.5);
+        font-size: 1.6rem;
+      }
+      >button{
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        svg{
+          vertical-align: middle;
+        }
+      }
+      &__volume{
+        @extend %pos-rel;
+        border-radius: 10rem;
+        height: 5rem;
+        width: 15rem;
+        padding: 1rem;
+        @include flex(space-between, center);
+        &__range{
+          >input{
+            width: 10rem;
+            vertical-align: middle
+          }
+        }
+        &--status{
+          @extend %pos-rel;
+          @include flex(flex-start, center);
+          height: 2rem;
+          >button{
+            @extend %pos-abs;
+            border: none;
+            background-color: transparent;
+          }
+          .volume-hidden{
+            @extend %d-none;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.play-list{
+  grid-column: span 7;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 1rem;
+  li{
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: transform .3s linear;
+    border-radius: 1rem;
+    .song-img{
+      @extend %d-inline;
+      width: 6.4rem;
+      height: 6.4rem;
+      background-image: radial-gradient(transparent 0 5%, #8e44ad 5% 20%, #000 20%);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center/cover;
+      margin-right: 1rem;
+    }
+    p{
+      @extend %d-inline;
+      font-size: 2rem;
+      transform: translateY(-100%);
+    }
+    &:hover{
+     transform: translate(-1%, -5%);
+     background-color: rgba(226, 191, 151, 0.4);
+     transition: transform .3s linear;
+    }
+  }
+}

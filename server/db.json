@@ -1,0 +1,75 @@
+{
+  "songs": [
+    {
+      "id": 1,
+      "name": "My stupid heart",
+      "singer": "Walk Off The Earth",
+      "src": "./songs/mystupidheart.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/8/9/c/d/89cd3f98c3734d2c1c7ebc8913d16c70.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Колыбельная (Lulbaby)",
+      "singer": "Rauf & Faik",
+      "src": "./songs/lulbaby.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/a/e/a/f/aeaf0ea7983a9582abac187a7ea7f09e.jpg"
+    },
+    {
+      "id": 3,
+      "name": "I'm a loner",
+      "singer": "CN Blue",
+      "src": "./songs/imaloner.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/covers/4/b/4b1c59c7728e2b1cb65f6cb20aaf5cf9_1286007342.jpg"
+    },
+    
+    {
+      "id": 4,
+      "name": "Me and my broken heart",
+      "singer": "Rixton",
+      "src": "./songs/meandmybrokenheart.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/6/5/f/a/65fa9cdb6967c6a6586ebb5477aed1c7.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Pretty girl",
+      "singer": "Maggie Lindemann",
+      "src": "./songs/prettygirl.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/6/6/6/6/66661fc656d74d49c688235cfb690cec.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Trót trao duyên",
+      "singer": "NB3 Hoài Bảo",
+      "src": "./songs/trottraoduyen.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/6/3/e/4/63e4c54d6c395d95352d256876fccab5.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Con tim không đổi thay",
+      "singer": "Dee Trần",
+      "src": "./songs/contimkhongdoithay.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/1/9/7/1/1971ce77b6ece212760349d84678470f.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Mood",
+      "singer": "24k Golden",
+      "src": "./songs/mood.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/5/5/9/c/559c962b06a6f73c9aa0caf4dbeb8cd2.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Cứu vãn kịp không",
+      "singer": "Vương Anh Tú",
+      "src": "./songs/cuuvankipkhong.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/3/9/0/9/390960be891eb4dc604b8856f25c077c.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Trăm năm không quên",
+      "singer": "Quang Hà",
+      "src": "./songs/tramnamkhongquen.mp3",
+      "img": "https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/a/c/a/e/acae1d03a7ca6eebba739b05402343db.jpg"
+    }
+  ]
+}
