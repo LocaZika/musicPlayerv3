@@ -6,6 +6,8 @@
   margin-bottom: 2rem;
   border-radius: 1rem;
   --process-width: 0;
+  --currenttime: '00:00';
+  --duration: '00:00';
   @extend %pos-rel;
   &:hover{
     .slider-track{
@@ -21,12 +23,11 @@
     transform: translateY(-100%);
   }
   &::before{
-    content: attr(currenttime);
+    content: var(--currenttime);
     left: 0;
   }
   &::after{
-    content: attr(data-duration);
-    // content: '04:12';
+    content: var(--duration);
     right: 0;
   }
   .process{
@@ -61,10 +62,5 @@
     top: 0;
     left: var(--process-width);
     transition: all .2s linear;
-    // &:hover{
-    //   height: 1.5rem;
-    //   border-radius: 50%;
-    //   margin-top: -0.25rem;
-    // }
   }
 }

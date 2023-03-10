@@ -7,7 +7,10 @@ const send = async (method) => {
     },
   });
   const data = await getData.json();
-  return data;
+  return {
+    data,
+    response: getData,
+  };
 };
 export const get = () => {
   return send("GET");

@@ -13,7 +13,7 @@ export default class StateProvider extends Component {
       isRepeat: false,
       duration: 0,
       volume: 0.5,
-    }
+    };
     this.dispatch = {
       setSongs: this.setSongs,
       setCurrentSong: this.setCurrentSong,
@@ -24,7 +24,8 @@ export default class StateProvider extends Component {
       setPrevSong: this.setPrevSong,
       setNextSong: this.setNextSong,
       // setVolume: this.setVolume,
-    }
+    };
+    this.audio = new Audio();
   }
   setSongs = (songs) => {
     this.setState({songs});
@@ -57,7 +58,12 @@ export default class StateProvider extends Component {
   render() {
     const {children} = this.props;
     return (
-      <StateContext.Provider value={{data: this.state, dispatch: this.dispatch}}>
+      <StateContext.Provider
+        value={{
+          data: this.state,
+          dispatch: this.dispatch,
+          audio: this.audio
+        }}>
         {children}
       </StateContext.Provider>
     )

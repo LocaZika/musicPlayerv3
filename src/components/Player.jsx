@@ -13,7 +13,7 @@ import {
 import TimeLine from './TimeLine';
 import withContext from './stateGlobal/withContext';
 import { isEmpty, isEqual } from 'lodash';
-import Audio from './Audio';
+// import Audio from './Audio';
 
 class Player extends Component {
   constructor(props) {
@@ -21,31 +21,33 @@ class Player extends Component {
     this.thumbRef = createRef();
     this.volumeRef = createRef();
     this.audioRef = createRef();
-  }
-  handleSetSrc = () => {
-    const {currentSong} = this.props.context.data;
-    let src = '';
-    let duration = 0;
-    if(isEmpty(currentSong) === false){
-      src = currentSong.src;
-      duration = this.audioRef.current.duration
-      this.props.context.dispatch.setDuration(duration);
-    }else src = '#';
-    return src;
+    this.state = {
+      src: '',
+    }
   }
 
+  handleSetSrc = () => {
+    const { data , audio, dispatch } = this.props.context;
+    const {src} = this.state;
+    if(isEqual(src, data.currentSong.src) === false){
+      this.setState({src: data.currentSong.src});
+      audio.src = data.currentSong.src;
+      dispatch.setDuration(audio.duration);
+    }
+  }
 // Play button event
 
   handleClickPlay = () => {
-    const {isPlaying} = this.props.context.data;
-    const {dispatch} = this.props.context;
-    let isPlayingCheck = isPlaying;
+    this.handleSetSrc();
+    const { data , dispatch, audio} = this.props.context;
+    let isPlayingCheck = data.isPlaying;
     if(isPlayingCheck === true){
-      this.audioRef.pause();
+      audio.pause();
     }else{
-      this.audioRef.play();
+      audio.play();
     }
-    isPlayingCheck = !isPlaying;
+    audio.volume = 0.5;
+    isPlayingCheck = !data.isPlaying;
     dispatch.setIsPlaying(isPlayingCheck);
   }
   handleSetFirstAndLastSong = () => {
@@ -85,7 +87,7 @@ class Player extends Component {
     setVolume(volumeRange);
   }
   render() {
-    const { currentSong, isPlaying, audio, nextSong, volume } = this.props.context.data;
+    const { currentSong, isPlaying, nextSong, volume } = this.props.context.data;
     const { setCurrentSong } = this.props.context.dispatch;
     return (
       <div className='player glass'>
@@ -140,7 +142,8 @@ class Player extends Component {
             </div>
           </div>
         </div>
-        <Audio context={this.props.context} ref={this.audioRef} onSetSrc={this.handleSetSrc} />
+        {/* <Audio context={this.props.context} ref={this.audioRef} onSetSrc={this.handleSetSrc} /> */}
+
       </div>
     )
   }

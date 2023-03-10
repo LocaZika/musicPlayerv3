@@ -1,15 +1,16 @@
+import { isEmpty, isNull } from 'lodash';
 import { Component, createRef } from 'react'
 import withContext from './stateGlobal/withContext'
 
 class TimeLine extends Component {
   constructor(props){
     super(props);
-    this.timelineRef = createRef();
     this.state = {
       clientX: 0,
       percent: 0,
       isMouseDown: false,
     }
+    this.timelineRef = createRef();
   }
   handleSetTimeSong(seconds){
     let minutes = Math.floor(seconds / 60);
@@ -19,6 +20,22 @@ class TimeLine extends Component {
     minutes < 10 ? minutesTimer = `0${minutes}` : minutesTimer = minutes;
     second < 10 ? secondTimer = `0${second}` : secondTimer = second;
     return `${minutesTimer}:${secondTimer}`;
+  }
+  handleCurrentTime = () => {
+    const { audio } = this.props.context;
+    audio.addEventListener('timeupdate', () => {
+      const currentTime = this.handleCurrentTime(audio.currentTime);
+      // this.timelineRef.current.setAttribute('currenttime', currentTime);
+    })
+    console.log(this.timelineRef);
+  };
+  handleDuration = () => {
+    const { audio, data } = this.props.context;
+    let duration = '';
+    if(isNull(audio) === false) {
+      duration = this.handleSetTimeSong(audio.duration);
+    }else{duration = '00:00';}
+    return duration;
   }
   handleMouseUp = () => {
     this.setState({isMouseDown: false});
@@ -46,24 +63,29 @@ class TimeLine extends Component {
     }
   }
   render() {
-    const { duration} = this.props.context.data;
-    const {setIsPlaying} = this.props.context.dispatch;
+    // this.handleDuration();
+    // this.handleCurrentTime();
+    const {audio} = this.props.context;
+    // audio.addEventListener("timeupdate", () => {
+    //   this.timelineRef.current.setAttribute('currenttime', this.handleSetTimeSong(audio.currentTime))
+    // })
     return (
       <div
         className='timeline'
-        data-duration={this.handleSetTimeSong(duration)}
-        currenttime={"00:00"}
+        duration={
+          this.handleDuration
+        }
         ref={this.timelineRef}
       >
-        <div
-          className="process"
-          // onMouseMove={this.handleMouseMove}
-        ></div>
-        <span
-          className="slider-track"
-          // onMouseDown={this.handleMouseDown}
-          // onMouseUp={this.handleMouseUp}
-        ></span>
+      <div
+        className="process"
+        // onMouseMove={this.handleMouseMove}
+      ></div>
+      <span
+        className="slider-track"
+        // onMouseDown={this.handleMouseDown}
+        // onMouseUp={this.handleMouseUp}
+      ></span>
       </div>
     )
   }

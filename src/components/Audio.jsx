@@ -3,12 +3,12 @@ import { forwardRef } from 'react';
 function Audio(props, ref) {
   // const {volume} = props.data;
   const {setDuration} = props.context.dispatch;
+  const {currentSong} = props.context.data;
   const audio = ref.current;
-  const {src, duration} = props.onSetSrc();
-  if(src !== '#'){
-    audio.src = src;
-    audio.play();
-  }
+  console.log(audio); 
+  // audio.setAttribute('src', currentSong.src);
+  // audio.src = currentSong.src;
+  // audio.play();
   return (
     <audio ref={ref}></audio>
   )
