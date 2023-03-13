@@ -11,15 +11,17 @@ class Loader extends Component {
     }
   }
   getSongs = () => {
-    const { dispatch } = this.props.context;
+    const { dispatch, audio, data } = this.props.context;
     get().then(({ data: songs }) => {
         dispatch.setSongs(songs);
         dispatch.setCurrentSong(songs[0]);
+        audio.src = songs[0].src;
+        audio.addEventListener('loadedmetadata', () => {
+          dispatch.setDuration(audio.duration);
+        })
+        setTimeout(() => this.setState({ isLoaded: true }), 1000);
       }
     )
-    window.addEventListener('load', () => {
-      setTimeout(() => this.setState({ isLoaded: true }), 1000);
-    });
   };
   componentDidMount(){
     this.getSongs();

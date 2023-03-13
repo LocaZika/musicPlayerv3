@@ -1,18 +1,19 @@
-import { isEmpty, isNull } from 'lodash';
+import { isNull } from 'lodash';
 import { Component, createRef } from 'react'
 import withContext from './stateGlobal/withContext'
 
 class TimeLine extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      clientX: 0,
-      percent: 0,
-      isMouseDown: false,
-    }
+    this.isMouseDown = false;
+    this.clientX = 0;
+    this.percent = 0;
     this.timelineRef = createRef();
   }
-  handleSetTimeSong(seconds){
+
+// Handle Time Song
+
+  handleTimeSong(seconds){
     let minutes = Math.floor(seconds / 60);
     let second = Math.floor(seconds % 60);
     let minutesTimer = '';
@@ -21,71 +22,86 @@ class TimeLine extends Component {
     second < 10 ? secondTimer = `0${second}` : secondTimer = second;
     return `${minutesTimer}:${secondTimer}`;
   }
-  handleCurrentTime = () => {
+
+// Set Current Time
+
+  setCurrentTime = (timelineRef) => {
     const { audio } = this.props.context;
-    audio.addEventListener('timeupdate', () => {
-      const currentTime = this.handleCurrentTime(audio.currentTime);
-      // this.timelineRef.current.setAttribute('currenttime', currentTime);
-    })
-    console.log(this.timelineRef);
+    const currentTime = this.handleTimeSong(audio.currentTime);
+    timelineRef.current.setAttribute('currenttime', currentTime);
+    timelineRef.current.style.setProperty('--process-width', this.setProcessTimeline(audio));
   };
-  handleDuration = () => {
+
+// Set Duration
+
+  setDuration = () => {
     const { audio, data } = this.props.context;
-    let duration = '';
-    if(isNull(audio) === false) {
-      duration = this.handleSetTimeSong(audio.duration);
-    }else{duration = '00:00';}
-    return duration;
+    if(isNull(audio.src) === false) {
+       return this.handleTimeSong(data.duration);
+    }else{
+      return '00:00';
+    }
   }
+  
+
+// Set Timeline Processing
+
+  setProcessTimeline = (audio) => {
+    let percent;
+    percent = Math.floor((audio.currentTime / audio.duration) * 100);
+    if(isNaN(percent) === true) percent = 0;
+    return `${percent}%`;
+  }
+
+// Handle Drag Or Click Timeline
+
   handleMouseUp = () => {
-    this.setState({isMouseDown: false});
-    this.timelineRef.current.style.userSelect = 'text';
+    const {audio} = this.props.context;
+    this.isMouseDown = false;
+    audio.currentTime = (audio.duration * this.percent) / 100;
   }
   handleMouseDown = (e) => {
     const timelineRef = this.timelineRef.current;
     let timelineWidth = timelineRef.clientWidth;
-    let offsetX = e.offsetWidth;
+    let offsetX = e.nativeEvent.offsetX;
     let percent = Math.floor((offsetX / timelineWidth) * 100);
     timelineRef.style.setProperty('--process-width', `${percent}%`);
-    this.setState({clientX: e.clientWidth, percent, isMouseDown: true});
+    this.isMouseDown = true;
+    this.percent = percent;
   }
   handleMouseMove = (e) => {
-    if(this.state.isMouseDown === true){
-      this.timelineRef.current.style.userSelect = 'none';
-      let currentClientX = e.clientWidth;
-      let move = currentClientX - this.state.clientX;
-      let percent = Math.floor((move / this.timelineRef.current.clientWidth) * 100);
+    if(this.isMouseDown === true){
+      const timelineRef = this.timelineRef.current;
+      let currentClientX = e.clientX;
+      let move = currentClientX - this.clientX;
+      let percent = Math.floor((move / timelineRef.clientWidth) * 100);
       if(percent < 0) percent = 0;
       if(percent > 100) percent = 100;
-      this.setState({percent});
-      // this.timelineRef.current.style.setProperty();
-      console.log(this.state.percent);
+      this.percent = percent;
+      timelineRef.style.setProperty('--process-width', `${percent}%`);
     }
   }
+  handleMouseDownTrack = (e) => {
+    e.stopPropagation();
+    this.isMouseDownload = true;
+  }
   render() {
-    // this.handleDuration();
-    // this.handleCurrentTime();
     const {audio} = this.props.context;
-    // audio.addEventListener("timeupdate", () => {
-    //   this.timelineRef.current.setAttribute('currenttime', this.handleSetTimeSong(audio.currentTime))
-    // })
+    audio.addEventListener('timeupdate', () => {this.setCurrentTime(this.timelineRef)});
     return (
       <div
+        id='timeline'
         className='timeline'
-        duration={
-          this.handleDuration
-        }
         ref={this.timelineRef}
+        duration={this.setDuration()}
+        currenttime={'00:00'}
+        onMouseUp={this.handleMouseUp}
+        onMouseMove={this.handleMouseMove}
+        onMouseDown={this.handleMouseDown}
       >
-      <div
-        className="process"
-        // onMouseMove={this.handleMouseMove}
-      ></div>
-      <span
-        className="slider-track"
-        // onMouseDown={this.handleMouseDown}
-        // onMouseUp={this.handleMouseUp}
-      ></span>
+        <div className="process">
+          <span className="slider-track" onMouseDown={this.handleMouseDownTrack}></span>
+        </div>
       </div>
     )
   }

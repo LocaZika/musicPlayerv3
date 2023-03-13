@@ -10,9 +10,15 @@ class Playlist extends Component {
     }
   }
   handleClickSong = (song) => {
+    const {audio, data, dispatch} = this.props.context;
     const { setCurrentSong, setIsPlaying } = this.props.context.dispatch;
-    setCurrentSong(song);
-    setIsPlaying(true);
+    if(song.id !== data.currentSong.id){
+      setCurrentSong(song);
+      setIsPlaying(true);
+      audio.src = song.src;
+      dispatch.setThumbRotate(true);
+      audio.play();
+    }
   }
   render() {
     const { songs } = this.props.context.data;

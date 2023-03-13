@@ -6,55 +6,41 @@ export default class StateProvider extends Component {
     this.state = {
       songs: [],
       currentSong: {},
-      prevSong: {},
-      nextSong: {},
+      indexCurrentSong: 0,
       isPlaying: false,
-      isMute: false,
+      isMuted: false,
       isRepeat: false,
       duration: 0,
-      volume: 0.5,
+      thumbRotate: false,
     };
     this.dispatch = {
       setSongs: this.setSongs,
       setCurrentSong: this.setCurrentSong,
       setIsPlaying: this.setIsPlaying,
-      setIsMute: this.setIsMute,
+      setIsMuted: this.setIsMuted,
       setIsRepeat: this.setIsRepeat,
       setDuration: this.setDuration,
-      setPrevSong: this.setPrevSong,
-      setNextSong: this.setNextSong,
-      // setVolume: this.setVolume,
+      setIndexCurrentSong: this.setIndexCurrentSong,
+      setVolume: this.setVolume,
+      setThumbRotate: this.setThumbRotate,
     };
     this.audio = new Audio();
+    this.volume = 0.5;
   }
-  setSongs = (songs) => {
-    this.setState({songs});
-  }
-  setCurrentSong = (currentSong) => {
-    this.setState({currentSong});
-  }
+  setSongs = songs => this.setState({songs});
+  setCurrentSong = currentSong => this.setState({currentSong});
   setIsPlaying = (isPlaying) => {
     this.setState({isPlaying});
+    isPlaying === true ?
+      document.title = 'Music Player - Playing':
+      document.title = 'Music Player - Paused';
   }
-  setIsMute = (isMute) => {
-    this.setState({isMute});
-  }
-  setIsRepeat = (isRepeat) => {
-    this.setState({isRepeat});
-  }
-  setDuration = (duration) => {
-    this.setState({duration});
-  }
-  setPrevSong = (prevSong) => {
-    this.setState({prevSong});
-  }
-  setNextSong = (nextSong) => {
-    this.setState({nextSong});
-  }
-  setVolume = (volumePercent) => {
-    let volume = volumePercent / 100;
-    this.setState({volume});
-  }
+  setIsMuted = isMuted => this.setState({isMuted});
+  setIsRepeat = isRepeat => this.setState({isRepeat});
+  setDuration = duration => this.setState({duration});
+  setIndexCurrentSong = indexCurrentSong => this.setState({indexCurrentSong});
+  setVolume = volumePercent => this.volume = volumePercent / 100;
+  setThumbRotate = thumbRotate => this.setState({thumbRotate});
   render() {
     const {children} = this.props;
     return (
@@ -62,7 +48,8 @@ export default class StateProvider extends Component {
         value={{
           data: this.state,
           dispatch: this.dispatch,
-          audio: this.audio
+          audio: this.audio,
+          volume: this.volume,
         }}>
         {children}
       </StateContext.Provider>
